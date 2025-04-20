@@ -1,27 +1,42 @@
-// mcp\app\config\paths.ts
-import path from 'path';
+import { fileURLToPath } from 'url'
+import path from 'path'
 
-// Rutas base - VERSIÓN SIMPLIFICADA CON RUTAS ABSOLUTAS
-export const PROJECT_BASE = "C:/Users/overd/Links/Academia/MCP/int-0"; // Ruta ABSOLUTA al proyecto
-export const codeRoot = `${PROJECT_BASE}/code`;
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-export const metaMpcRoot = `${PROJECT_BASE}/meta/mcp`;
-export const mcpApp = `${metaMpcRoot}/app`;
-export const contextDir = `${metaMpcRoot}/context`;
-export const trackingDir = `${metaMpcRoot}/tracking`;
-export const logsDir = `${metaMpcRoot}/logs`;
-export const githubConfigPath = path.join(metaMpcRoot, "github.json");
+// Navegar hacia root
+const PROJECT_BASE = path.resolve(__dirname, '../../../../')
+console.log(`PROJECT_BASE:: ${PROJECT_BASE}`)
+
+export const codeRoot = `${PROJECT_BASE}/code`
+export const metaMpcRoot = `${PROJECT_BASE}/meta/mcp`
+
+export const metaContextDir = `${metaMpcRoot}/context`
+export const codeContextDir = `${codeRoot}/context`
+
+export const codeTrackingDir = `${codeRoot}/tracking`
+export const metaTrackingDir = `${metaMpcRoot}/tracking`
+
+export const mcpApp = `${metaMpcRoot}/app`
+export const logsDir = `${metaMpcRoot}/logs`
+export const githubConfigPath = path.join(metaMpcRoot, "github.json")
 
 // Exportar todas las rutas como objeto
 export const paths = {
     PROJECT_BASE,
+
     metaMpcRoot,
-    mcpApp,
     codeRoot,
-    contextDir,
-    trackingDir,
+
+    metaContextDir,
+    codeContextDir,
+
+    metaTrackingDir,
+    codeTrackingDir,
+
+    mcpApp,
     logsDir,
     githubConfigPath,
-};
+}
 
-export default paths;
+export default paths

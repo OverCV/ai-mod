@@ -13,12 +13,12 @@ export const IGNORE_DIRS = [
 
 
 // Tipos para los nodos del árbol básico
-export type BasicNode = {
-    n: string;           // nombre
-    t: 'dir' | 'file';   // tipo
-    d?: string;          // descripción
-    c?: BasicNode[];     // contenido (hijos)
-}
+// export type BasicNode = {
+//     n: string;           // nombre
+//     t: 'dir' | 'file';   // tipo
+//     d?: string;          // descripción
+//     c?: BasicNode[];     // contenido (hijos)
+// }
 
 // Tipos para elementos detallados
 export type DetailedElement = {
@@ -34,8 +34,8 @@ export type DetailedNode = {
     n: string;                 // nombre
     t: 'dir' | 'file';         // tipo
     d?: string;                // descripción
-    c?: DetailedNode[];        // contenido (hijos)
     e?: DetailedElement[];     // elementos (funciones, clases, etc)
+    c?: DetailedNode[];        // contenido (hijos)
 }
 
 // Tipo para los cambios registrados

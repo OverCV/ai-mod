@@ -17,22 +17,22 @@ info(`MCP iniciando con las siguientes rutas ABSOLUTAS:
 - mpcRoot: ${paths.metaMpcRoot}
 - mcpApp: ${paths.mcpApp}
 - codeRoot: ${paths.codeRoot}
-- contextDir: ${paths.contextDir}
-- trackingDir: ${paths.trackingDir}
+- contextDir: ${paths.metaContextDir}
+- trackingDir: ${paths.metaTrackingDir}
 - logsDir: ${paths.logsDir}
 `)
 
 // Asegurar que existen los directorios necesarios
 async function ensureDirectories() {
-    await fs.ensureDir(paths.contextDir)
-    await fs.ensureDir(paths.trackingDir)
-    await fs.ensureDir(path.join(paths.trackingDir, "features"))
+    await fs.ensureDir(paths.metaContextDir)
+    await fs.ensureDir(paths.metaTrackingDir)
+    await fs.ensureDir(path.join(paths.metaTrackingDir, "features"))
     await fs.ensureDir(paths.logsDir)
     await fs.ensureDir(paths.codeRoot)
     await fs.ensureDir(paths.mcpApp)
 
     // Crear archivos básicos si no existen
-    const statusPath = path.join(paths.trackingDir, "status.yaml")
+    const statusPath = path.join(paths.metaTrackingDir, "status.yaml")
     if (!await fs.pathExists(statusPath)) {
         await fs.writeFile(
             statusPath,
@@ -53,7 +53,7 @@ async function startServer() {
 
     const server = new McpServer({
         name: "MetaMCP",
-        version: "0.0.1",
+        version: "0.2.1",
         port: 4000,
     })
 

@@ -13,79 +13,79 @@ import {
     initGitRepo,
     isGitRepo,
     readGitHubConfig,
-    saveGitHubConfig
 } from "../tools/github.js";
+import { GitHubConfig } from "../types/index.js";
 
 /**
  * Registra la herramienta de escaneo de proyecto en el servidor MCP
  */
 export function registerGithubMcp(server: McpServer) {
-    // Herramienta para configurar GitHub
-    server.tool(
-        'configurar-github',
-        "Configura la integración con GitHub",
-        {
-            description: z.string().describe("Configura la integración con GitHub"),
-            parameters: z.object({
-                token: z.string().describe("Token de acceso personal de GitHub"),
-                owner: z.string().describe("Propietario del repositorio"),
-                repo: z.string().describe("Nombre del repositorio"),
-                branch: z.string().optional().describe("Rama principal (default: main)")
-            }),
-        },
-        async ({ parameters }) => {
-            try {
-                // Extraer el nombre del repositorio sin la URL completa si se proporcionó así
-                let repoName = parameters.repo
-                if (repoName.includes('github.com')) {
-                    // Extrae el nombre del repositorio de la URL
-                    const urlParts = repoName.split('/')
-                    repoName = urlParts[urlParts.length - 1]
-                    // Eliminar .git si está presente
-                    if (repoName.endsWith('.git')) {
-                        repoName = repoName.slice(0, -4)
-                    }
-                }
+    // Herramienta para configurar GitHub >> Debería ser desde el ENV!
+    // server.tool(
+    //     'configurar-github',
+    //     "Configura la integración con GitHub",
+    //     {
+    //         description: z.string().describe("Configura la integración con GitHub"),
+    //         parameters: z.object({
+    //             token: z.string().describe("Token de acceso personal de GitHub"),
+    //             owner: z.string().describe("Propietario del repositorio"),
+    //             repo: z.string().describe("Nombre del repositorio"),
+    //             branch: z.string().optional().describe("Rama principal (default: main)")
+    //         }),
+    //     },
+    //     async ({ parameters }) => {
+    //         try {
+    //             // Extraer el nombre del repositorio sin la URL completa si se proporcionó así
+    //             let repoName = parameters.repo
+    //             if (repoName.includes('github.com')) {
+    //                 // Extrae el nombre del repositorio de la URL
+    //                 const urlParts = repoName.split('/')
+    //                 repoName = urlParts[urlParts.length - 1]
+    //                 // Eliminar .git si está presente
+    //                 if (repoName.endsWith('.git')) {
+    //                     repoName = repoName.slice(0, -4)
+    //                 }
+    //             }
 
-                const config = {
-                    token: parameters.token,
-                    owner: parameters.owner,
-                    repo: repoName,
-                    branch: parameters.branch || 'main'
-                }
+    //             const config = {
+    //                 token: parameters.token,
+    //                 owner: parameters.owner,
+    //                 repo: repoName,
+    //                 branch: parameters.branch || 'main'
+    //             }
 
-                // Log sin mostrar el token
-                debug(`Configurando GitHub: owner=${config.owner}, repo=${config.repo}, branch=${config.branch}`)
+    //             // Log sin mostrar el token
+    //             debug(`Configurando GitHub: owner=${config.owner}, repo=${config.repo}, branch=${config.branch}`)
 
-                await saveGitHubConfig(paths.githubConfigPath, config)
+    //             await saveGitHubConfig(paths.githubConfigPath, config)
 
-                await logChange({
-                    fecha: new Date().toISOString(),
-                    tipo: "system",
-                    desc: "Configuración de GitHub actualizada"
-                })
+    //             await logChange({
+    //                 fecha: new Date().toISOString(),
+    //                 tipo: "system",
+    //                 desc: "Configuración de GitHub actualizada"
+    //             })
 
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: `Configuración de GitHub guardada exitosamente para el repositorio ${config.owner}/${config.repo}`
-                        }
-                    ]
-                }
-            } catch (error: any) {
-                debug(`Error en configurar-github: ${error.message}`)
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: `Error al configurar GitHub: ${error.message}`
-                        }
-                    ]
-                }
-            }
-        }
-    )
+    //             return {
+    //                 content: [
+    //                     {
+    //                         type: "text",
+    //                         text: `Configuración de GitHub guardada exitosamente para el repositorio ${config.owner}/${config.repo}`
+    //                     }
+    //                 ]
+    //             }
+    //         } catch (error: any) {
+    //             debug(`Error en configurar-github: ${error.message}`)
+    //             return {
+    //                 content: [
+    //                     {
+    //                         type: "text",
+    //                         text: `Error al configurar GitHub: ${error.message}`
+    //                     }
+    //                 ]
+    //             }
+    //         }
+    //     }
+    // )
 
     // Herramienta para hacer commit y push a GitHub
     server.tool(
@@ -249,4 +249,7 @@ export function registerGithubMcp(server: McpServer) {
             }
         }
     )
+
+    // Herramienta para pull requests
 }
+

@@ -14,19 +14,19 @@ import fs from "fs-extra";
 export function registerFeaturesMcp(server: McpServer) {
     // Herramienta para crear/actualizar feature
     server.tool(
-        'gestionar-feature',
-        "Crea o actualiza una característica del proyecto",
+        'set-feature',
+        "Crear/actualizar una característica del proyecto",
         {
             description: z.string().describe("Gestiona el seguimiento de una característica"),
             parameters: z.object({
                 id: z.string().describe("ID de la característica"),
                 nombre: z.string().describe("Nombre descriptivo"),
-                descripcion: z.string().describe("Descripción detallada"),
+                descripcion: z.string().describe("Descripción detallada (objetivo y necesidad)"),
                 progreso: z.number().min(0).max(100).describe("Porcentaje de avance"),
                 tareas: z.array(z.object({
                     id: z.string(),
                     desc: z.string(),
-                    estado: z.enum(["pendiente", "en_progreso", "completado", "bloqueado"]),
+                    estado: z.enum(["pendiente", "en_progreso", "completada"]),
                     rutas: z.array(z.string()).optional()
                 })).optional(),
                 pruebas: z.object({
@@ -37,7 +37,7 @@ export function registerFeaturesMcp(server: McpServer) {
         },
         async ({ parameters }) => {
             try {
-                const featurePath = path.join(paths.trackingDir, "features", `${parameters.id}.yaml`)
+                const featurePath = path.join(paths.metaTrackingDir, "features", `${parameters.id}.yaml`)
                 const isNew = !await fs.pathExists(featurePath)
 
                 // Construir contenido YAML
@@ -70,7 +70,7 @@ export function registerFeaturesMcp(server: McpServer) {
 
                 // Actualizar status.yaml para incluir esta feature si es nueva
                 if (isNew) {
-                    const statusPath = path.join(paths.trackingDir, "status.yaml")
+                    const statusPath = path.join(paths.metaTrackingDir, "status.yaml")
                     const status = await fs.readFile(statusPath, 'utf8')
 
                     // Añadir ID a funcionalidades_activas si no existe

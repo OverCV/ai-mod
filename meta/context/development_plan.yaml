@@ -1,0 +1,19 @@
+features:
+  - id: estructura-base
+    nombre: "Estructura base del proyecto"
+    descripcion: "Configuración inicial y estructura de directorios"
+    dependencies: []
+    tasks:
+      - id: dirs-api
+        desc: "Crear estructura de directorios API"
+        details: "Crear la estructura básica de directorios para la API"
+        test_command: "test -d code/api"
+  - id: modelos-datos
+    nombre: "Modelos de datos"
+    descripcion: "Definición de esquemas de datos"
+    dependencies: ["estructura-base"]
+    tasks:
+      - id: esquemas
+        desc: "Crear esquemas básicos"
+        details: "Definir esquemas Pydantic"
+        test_command: "echo PASSED"

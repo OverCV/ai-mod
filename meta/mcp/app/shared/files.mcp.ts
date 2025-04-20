@@ -1,4 +1,4 @@
-    // mcp\app\shared\files.mcp.ts
+// mcp\app\shared\files.mcp.ts
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { z } from "zod"
 
@@ -19,7 +19,7 @@ export function registerFileMcp(server: McpServer) {
     // También necesitamos actualizar leer-archivo para manejar el mismo prefijo
 
     server.tool(
-        'leer-archivo',
+        'archivo-leer',
         "Lee el contenido de un archivo",
         {
             description: z.string().describe("Lee un archivo del proyecto"),
@@ -32,21 +32,6 @@ export function registerFileMcp(server: McpServer) {
                 // Buscar primero con el prefijo code/ si no lo tiene
                 let ruta = parameters.ruta
                 let filePath = path.join(paths.PROJECT_BASE, ruta)
-
-                // Si no existe y no comienza con code/, intentar con el prefijo
-                if (!await fs.pathExists(filePath) && !ruta.startsWith('code/')) {
-                    ruta = `code/${ruta}`
-                    filePath = path.join(paths.PROJECT_BASE, ruta)
-                }
-
-                // Si todavía no existe, probar en mpc/ (para configuraciones)
-                if (!await fs.pathExists(filePath) && !ruta.startsWith('mcp/')) {
-                    // Intentar dentro de mcp
-                    const mpcPath = path.join(paths.metaMpcRoot, parameters.ruta)
-                    if (await fs.pathExists(mpcPath)) {
-                        filePath = mpcPath
-                    }
-                }
 
                 const content = await readFile(filePath)
                 return {
@@ -73,45 +58,53 @@ export function registerFileMcp(server: McpServer) {
 
     // Herramienta para escribir archivos
     server.tool(
-        'escribir-archivo',
-        "Crea o modifica un archivo",
+        'archivo-crear',
+        "Crea un archivo condicionado por los tokensde respuesta",
         {
             description: z.string().describe("Escribe contenido en un archivo"),
             parameters: z.object({
-                ruta: z.string().describe("Ruta relativa al archivo desde la raíz del proyecto"),
+                en_code: z.boolean().describe("La ruta actual es en `code/`? sino será `meta/mpc/` (desde la raíz)(usado para el escaneo)"),
+                ruta: z.string().describe("Ruta relativa del proyecto raíz al archivo"),
+                descripcion: z.string().describe("Descripción del cambio para el registro"),
                 contenido: z.string().describe("Contenido a escribir en el archivo"),
-                descripcion: z.string().describe("Descripción del cambio para el registro")
+                // intencion: z.enum(["implement", "def-mcp"])
             }),
         },
-        async ({ parameters }) => {
+        async ({ parameters: params }) => {
             try {
-                // Asegurar que la ruta comience con code/
-                let ruta = parameters.ruta
-                if (!ruta.startsWith('code/')) {
-                    ruta = `code/${ruta}`
-                }
 
-                // Ahora usar la ruta corregida
-                const filePath = path.join(paths.PROJECT_BASE, ruta)
-                const isNew = !await fs.pathExists(filePath)
+                // todo: Primero debemos escanear el proyecto para asegurarnos de que la ruta es válida (el archivo no exista en otro lado)
 
-                await writeFile(filePath, parameters.contenido)
+                // todo: Hacer bien esta parte indicando al modelo que pues si se crea un archivo se valida que no esté, si está pues debería volver y retornar que haga un modificar. Por otro lado si no está y de verdad no hay un objetivo TRAS HACER el escaneo del árbol , entonces sí se crea, si no está se retorna diciendo que se debe crear dicha subtarea en la feature, pero pues si ya estaba es crearlo y retorna que actualice el arbol detallado porque en dihca ruta ya está y así no se va a repetir el coso, así como en el ascii, algo así es la idea.
 
+                // Ahora usar la ruta corregida (base + prefijo + ruta)
+                const dirPath = params.en_code ? paths.codeRoot : paths.metaMpcRoot
+                const filePath = path.join(paths.PROJECT_BASE, dirPath!, params.ruta)
+                // Si el prefijo es mcp, usar la ruta de mcp
+
+
+                await writeFile(filePath, params.contenido)
                 await logChange({
                     fecha: new Date().toISOString(),
-                    archivo: ruta,
-                    tipo: isNew ? "add" : "mod",
-                    desc: parameters.descripcion
+                    archivo: filePath,
+                    tipo: "add",
+                    desc: params.descripcion
                 })
+                // todo: actualizar las tareas de la feature porque se hizo esta subtarea, así mismo con editar
+                // await updateFeatureTask(parameters.intencion, parameters.ruta, parameters.descripcion)
 
+                const isNew = !await fs.pathExists(filePath)
                 // Si es un archivo nuevo, actualizar el árbol
                 if (isNew) {
                     try {
                         // Actualizar árbol directamente mediante la función
-                        const { basic } = await scanProject(paths.PROJECT_BASE)
+                        const contextPath = params.en_code ? paths.codeContextDir : paths.metaContextDir
+
+                        const { detailed } = await scanProject(contextPath)
+
                         await fs.writeFile(
-                            path.join(paths.contextDir, "project_tree.json"),
-                            JSON.stringify(basic, null, 2)
+                            path.join(contextPath, `project_tree_full_${params.en_code ? 'code' : 'mcp'}.json`),
+                            JSON.stringify(detailed, null, 2)
                         )
 
                         debug("Árbol de directorios actualizado automáticamente")
@@ -120,12 +113,11 @@ export function registerFileMcp(server: McpServer) {
                         // No fallar todo el proceso solo por un error en el escaneo
                     }
                 }
-
                 return {
                     content: [
                         {
                             type: "text",
-                            text: `Archivo ${isNew ? "creado" : "modificado"} exitosamente: ${ruta}`
+                            text: `Archivo creado exitosamente: ${params.ruta}`
                         }
                     ]
                 }
@@ -145,15 +137,15 @@ export function registerFileMcp(server: McpServer) {
 
     // Herramienta para modificar parte de un archivo
     server.tool(
-        'modificar-archivo',
+        'archivo-editar',
         "Modifica una parte específica de un archivo",
         {
             description: z.string().describe("Reemplaza texto dentro de un archivo"),
             parameters: z.object({
                 ruta: z.string().describe("Ruta relativa al archivo desde la raíz del proyecto"),
                 buscar: z.string().describe("Texto a buscar"),
+                descripcion: z.string().describe("Descripción del cambio para el registro"),
                 reemplazar: z.string().describe("Texto de reemplazo"),
-                descripcion: z.string().describe("Descripción del cambio para el registro")
             }),
         },
         async ({ parameters }) => {
@@ -197,12 +189,12 @@ export function registerFileMcp(server: McpServer) {
 
     // Herramienta para listar directorio
     server.tool(
-        'listar-directorio',
+        'directorio-listar',
         "Lista el contenido de un directorio",
         {
             description: z.string().describe("Lista archivos y carpetas"),
             parameters: z.object({
-                ruta: z.string().describe("Ruta relativa al directorio"),
+                ruta: z.string().describe("Ruta relativa al prefijo"),
                 recursivo: z.boolean().optional().describe("true: lista subdirectorios")
             }),
         },
@@ -296,20 +288,21 @@ export function registerFileMcp(server: McpServer) {
 
     // Herramienta para generar árbol ASCII
     server.tool(
-        'generar-arbol-ascii',
+        // todo: el arbol no debería estar acá sino en los nodos
+        'arbol-ascii-crear',
         "Genera un árbol visual en formato ASCII",
         {
             description: z.string().describe("Genera representación visual de directorios"),
             parameters: z.object({
-                ruta: z.string().describe("Directorio base (code, src, api, etc.)"),
-                profundidad: z.number().optional().describe("Nivel máximo de profundidad"),
+                en_code: z.boolean().describe("La ruta actual es en `code/`? sino será `meta/mpc/` (desde la raíz)(usado para el escaneo)"),
+                // ruta: z.string().describe("Directorio base (code, src, api, etc.)"),
                 guardar: z.boolean().optional().describe("Si es true, guarda el árbol en un archivo")
             }),
         },
         async ({ parameters }) => {
             try {
                 // Determinar la ruta a procesar
-                let ruta = parameters.ruta
+                let ruta = parameters.en_code ? paths.codeRoot : paths.metaMpcRoot
                 let dirPath = path.join(paths.PROJECT_BASE, ruta)
 
                 // Si no existe y no comienza con code/, intentar con el prefijo
@@ -318,12 +311,15 @@ export function registerFileMcp(server: McpServer) {
                     dirPath = path.join(paths.PROJECT_BASE, ruta)
                 }
 
-                // Si todavía no existe, comprobar si es una ruta dentro de mpc/
-                if (!await fs.pathExists(dirPath) && !ruta.startsWith('mcp/')) {
-                    const mpcPath = path.join(paths.metaMpcRoot, parameters.ruta)
-                    if (await fs.pathExists(mpcPath)) {
-                        dirPath = mpcPath
-                        ruta = `mcp/${parameters.ruta}`
+                // Si existe pero vacio, nada entonces retornar el padre y mensajito de error
+                if (await fs.pathExists(dirPath) && (await fs.readdir(dirPath)).length === 0) {
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: `Error:\n└── ${paths.PROJECT_BASE}/.\nEl directorio ${ruta} está vacío.`
+                            }
+                        ]
                     }
                 }
 
@@ -340,13 +336,12 @@ export function registerFileMcp(server: McpServer) {
                 }
 
                 // Generar el árbol ASCII
-                const maxDepth = parameters.profundidad !== undefined ? parameters.profundidad : Infinity
-                const asciiTree = await generateDirectoryTree(dirPath, '', maxDepth)
+                const asciiTree = await generateDirectoryTree(dirPath, '')
 
                 // Si se solicitó guardar, escribir a un archivo
                 if (parameters.guardar) {
                     const rutaBase = ruta.replace(/\//g, '_').replace(/^_/, '')
-                    const outputPath = path.join(paths.contextDir, `arbol_${rutaBase}.txt`)
+                    const outputPath = path.join(paths.metaContextDir, `arbol_${rutaBase}.txt`)
                     await fs.writeFile(outputPath, `Árbol de directorios para: ${ruta}\n\n${asciiTree}`)
 
                     await logChange({
@@ -439,10 +434,10 @@ export function registerFileMcp(server: McpServer) {
                 })
 
                 // Actualizar árbol de directorios
-                const { basic } = await scanProject(paths.PROJECT_BASE)
+                const { detailed } = await scanProject(paths.PROJECT_BASE)
                 await fs.writeFile(
-                    path.join(paths.contextDir, "project_tree.json"),
-                    JSON.stringify(basic, null, 2)
+                    path.join(paths.metaContextDir, "project_tree.json"),
+                    JSON.stringify(detailed, null, 2)
                 )
 
                 return {
@@ -466,5 +461,5 @@ export function registerFileMcp(server: McpServer) {
             }
         }
     )
-
+    // todo: falta el eliminar carpeta o archivo, pero eso se hace con el delete de fs-extra, no es necesario crear una herramienta para eso, solo se usa el delete y ya está.
 }
