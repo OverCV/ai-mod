@@ -1,0 +1,86 @@
+id: riesgo-cardiovascular
+nombre: "Predicción de Riesgo Cardiovascular"
+descripcion: "Sistema completo de predicción de riesgo cardiovascular con pipeline ETL, entrenamiento de modelos (GradientBoosting con AUC=0.7992), API RESTful con FastAPI, integración con sistema principal via autenticación Spring, y almacenamiento de predicciones en PostgreSQL. El sistema valida los datos clínicos, aplica transformaciones, ofrece predicciones con niveles de riesgo (bajo/moderado/alto) e incluye factores influyentes y recomendaciones personalizadas."
+progreso: 100
+tareas:
+  - id: rc-01
+    desc: "Estructura de directorios del módulo"
+    estado: "completado"
+    rutas: ["estructura"]
+  - id: rc-02
+    desc: "Extractores y transformadores ETL"
+    estado: "completado"
+    rutas: ["preprocesamiento"]
+  - id: rc-03
+    desc: "Validación de esquemas y calidad de datos"
+    estado: "completado"
+    rutas: ["validación"]
+  - id: rc-04
+    desc: "Feature engineering y selección"
+    estado: "completado"
+    rutas: ["preprocesamiento"]
+  - id: rc-05
+    desc: "Pipeline de entrenamiento"
+    estado: "completado"
+    rutas: ["entrenamiento"]
+  - id: rc-06
+    desc: "Evaluación y comparativa de modelos"
+    estado: "completado"
+    rutas: ["evaluación"]
+  - id: rc-07
+    desc: "Visualizaciones para análisis"
+    estado: "completado"
+    rutas: ["análisis"]
+  - id: rc-08
+    desc: "Pruebas unitarias"
+    estado: "completado"
+    rutas: ["testing"]
+  - id: rc-09
+    desc: "Endpoint de predicción en FastAPI"
+    estado: "completado"
+    rutas: ["api"]
+  - id: rc-10
+    desc: "Integración con sistema principal"
+    estado: "completado"
+    rutas: ["integración"]
+  - id: rc-11
+    desc: "Documentación del módulo"
+    estado: "completado"
+    rutas: ["documentación"]
+  - id: rc-12
+    desc: "Ajustes de compatibilidad entre CODE y MCP"
+    estado: "completado"
+    rutas: ["integración"]
+  - id: rc-13
+    desc: "Integración con PostgreSQL para datos de pacientes"
+    estado: "completado"
+    rutas: ["base-datos"]
+pruebas:
+  unitarias: "Pruebas unitarias para todas las etapas de extracción, transformación, entrenamiento y evaluación implementadas con éxito. Se agregaron pruebas para los endpoints de API y se verificó compatibilidad con nuevas versiones de Pydantic y FastAPI."
+  integracion: "API completa con endpoints para predicción, implementando validación de datos, manejo de errores mediante middlewares y autenticación con el sistema principal. Verificada la correcta integración con el sistema principal y la base de datos PostgreSQL."
+    desc: "Evaluación y comparativa de modelos"
+    estado: "completado"
+    rutas: ["evaluación"]
+  - id: rc-07
+    desc: "Visualizaciones para análisis"
+    estado: "completado"
+    rutas: ["análisis"]
+  - id: rc-08
+    desc: "Pruebas unitarias"
+    estado: "completado"
+    rutas: ["testing"]
+  - id: rc-09
+    desc: "Endpoint de predicción en FastAPI"
+    estado: "completado"
+    rutas: ["api"]
+  - id: rc-10
+    desc: "Integración con sistema principal"
+    estado: "completado"
+    rutas: ["integración"]
+  - id: rc-11
+    desc: "Documentación del módulo"
+    estado: "completado"
+    rutas: ["documentación"]
+pruebas:
+  unitarias: Pruebas unitarias para todas las etapas de extracción, transformación, entrenamiento y evaluación implementadas con éxito. Se agregaron pruebas para los endpoints de API.
+  integracion: API completa con endpoints para predicción, implementando validación de datos, manejo de errores mediante middlewares y autenticación con el sistema principal.

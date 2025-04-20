@@ -1,0 +1,669 @@
+{
+  "n": "code",
+  "t": "dir",
+  "d": "Raíz del proyecto",
+  "c": [
+    {
+      "n": "README.md",
+      "t": "file"
+    },
+    {
+      "n": "api",
+      "t": "dir",
+      "c": [
+        {
+          "n": ".env",
+          "t": "dir",
+          "c": [
+            {
+              "n": "api.env",
+              "t": "file"
+            }
+          ]
+        },
+        {
+          "n": "README.md",
+          "t": "file"
+        },
+        {
+          "n": "core",
+          "t": "dir",
+          "c": [
+            {
+              "n": "classes",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "configuracion.py",
+                  "t": "file"
+                },
+                {
+                  "n": "schemas",
+                  "t": "dir",
+                  "c": [
+                    {
+                      "n": "riesgo_cv.py",
+                      "t": "file"
+                    }
+                  ]
+                },
+                {
+                  "n": "tables.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "data",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "db_connector.py",
+                  "t": "file"
+                },
+                {
+                  "n": "motors.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "middlewares",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "auth.py",
+                  "t": "file"
+                },
+                {
+                  "n": "excepcion.py",
+                  "t": "file"
+                },
+                {
+                  "n": "perfilado.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "repository",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "predicciones.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "routes",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "autenticacion.py",
+                  "t": "file"
+                },
+                {
+                  "n": "riesgo_cv.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "services",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "riesgo_cv.py",
+                  "t": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": "main.py",
+          "t": "file"
+        },
+        {
+          "n": "models",
+          "t": "dir",
+          "c": [
+            {
+              "n": "README.md",
+              "t": "file"
+            },
+            {
+              "n": "r_cardio",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "cardio_features.txt",
+                  "t": "file"
+                },
+                {
+                  "n": "cardio_model.pkl",
+                  "t": "file"
+                },
+                {
+                  "n": "comparativa_modelos.csv",
+                  "t": "file"
+                },
+                {
+                  "n": "feature_importance.csv",
+                  "t": "file"
+                },
+                {
+                  "n": "feature_importance.png",
+                  "t": "file"
+                },
+                {
+                  "n": "features.txt",
+                  "t": "file"
+                },
+                {
+                  "n": "matriz_confusion.png",
+                  "t": "file"
+                },
+                {
+                  "n": "mejor_modelo.pkl",
+                  "t": "file"
+                },
+                {
+                  "n": "rf_cardio_features.txt",
+                  "t": "file"
+                },
+                {
+                  "n": "rf_cardio_scaler.pkl",
+                  "t": "file"
+                },
+                {
+                  "n": "roc_curves.png",
+                  "t": "file"
+                },
+                {
+                  "n": "scaler.pkl",
+                  "t": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": "requirements.txt",
+          "t": "file"
+        },
+        {
+          "n": "run.py",
+          "t": "file"
+        },
+        {
+          "n": "test_api.py",
+          "t": "file"
+        },
+        {
+          "n": "utils",
+          "t": "dir",
+          "c": [
+            {
+              "n": "update_models.py",
+              "t": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": "http_test.py",
+      "t": "file"
+    },
+    {
+      "n": "mcp",
+      "t": "dir",
+      "c": [
+        {
+          "n": ".env",
+          "t": "file"
+        },
+        {
+          "n": "app",
+          "t": "dir",
+          "c": [
+            {
+              "n": "main.ts",
+              "t": "file"
+            },
+            {
+              "n": "shared",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "database.mcp.ts",
+                  "t": "file"
+                },
+                {
+                  "n": "index.ts",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "tools",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "database.ts",
+                  "t": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": "package-lock.json",
+          "t": "file"
+        },
+        {
+          "n": "temp",
+          "t": "dir",
+          "c": [
+            {
+              "n": "database.mcp.ts",
+              "t": "file"
+            },
+            {
+              "n": "testfile.txt",
+              "t": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": "models",
+      "t": "dir",
+      "c": [
+        {
+          "n": "r_cardio",
+          "t": "dir",
+          "c": [
+            {
+              "n": "cardio_features.txt",
+              "t": "file"
+            },
+            {
+              "n": "cardio_model.pkl",
+              "t": "file"
+            },
+            {
+              "n": "comparativa_modelos.csv",
+              "t": "file"
+            },
+            {
+              "n": "feature_importance.csv",
+              "t": "file"
+            },
+            {
+              "n": "feature_importance.png",
+              "t": "file"
+            },
+            {
+              "n": "features.txt",
+              "t": "file"
+            },
+            {
+              "n": "matriz_confusion.png",
+              "t": "file"
+            },
+            {
+              "n": "mejor_modelo.pkl",
+              "t": "file"
+            },
+            {
+              "n": "rf_cardio_features.txt",
+              "t": "file"
+            },
+            {
+              "n": "rf_cardio_model.pkl",
+              "t": "file"
+            },
+            {
+              "n": "rf_cardio_scaler.pkl",
+              "t": "file"
+            },
+            {
+              "n": "roc_curves.png",
+              "t": "file"
+            },
+            {
+              "n": "scaler.pkl",
+              "t": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": "requirements.txt",
+      "t": "file"
+    },
+    {
+      "n": "src",
+      "t": "dir",
+      "c": [
+        {
+          "n": "config",
+          "t": "dir",
+          "c": [
+            {
+              "n": "logging_config.py",
+              "t": "file"
+            },
+            {
+              "n": "settings.py",
+              "t": "file"
+            }
+          ]
+        },
+        {
+          "n": "data",
+          "t": "dir",
+          "c": [
+            {
+              "n": "datasets",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "rehospitalizacion",
+                  "t": "dir",
+                  "c": []
+                },
+                {
+                  "n": "riesgo_cardiovascular",
+                  "t": "dir",
+                  "c": [
+                    {
+                      "n": "enfermedades_cardiovasculares.csv",
+                      "t": "file"
+                    },
+                    {
+                      "n": "heart+disease",
+                      "t": "dir",
+                      "c": [
+                        {
+                          "n": "Index",
+                          "t": "file"
+                        },
+                        {
+                          "n": "WARNING",
+                          "t": "file"
+                        },
+                        {
+                          "n": "ask-detrano",
+                          "t": "file"
+                        },
+                        {
+                          "n": "bak",
+                          "t": "file"
+                        },
+                        {
+                          "n": "cleve.mod",
+                          "t": "file"
+                        },
+                        {
+                          "n": "cleveland.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "costs",
+                          "t": "dir",
+                          "c": [
+                            {
+                              "n": "Index",
+                              "t": "file"
+                            },
+                            {
+                              "n": "heart-disease.README",
+                              "t": "file"
+                            },
+                            {
+                              "n": "heart-disease.cost",
+                              "t": "file"
+                            },
+                            {
+                              "n": "heart-disease.delay",
+                              "t": "file"
+                            },
+                            {
+                              "n": "heart-disease.expense",
+                              "t": "file"
+                            },
+                            {
+                              "n": "heart-disease.group",
+                              "t": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "n": "heart-disease.names",
+                          "t": "file"
+                        },
+                        {
+                          "n": "hungarian.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "link.txt",
+                          "t": "file"
+                        },
+                        {
+                          "n": "long-beach-va.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "new.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "processed.cleveland.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "processed.hungarian.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "processed.switzerland.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "processed.va.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "reprocessed.hungarian.data",
+                          "t": "file"
+                        },
+                        {
+                          "n": "switzerland.data",
+                          "t": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "n": "hospitalizacion_dataset.csv",
+                      "t": "file"
+                    },
+                    {
+                      "n": "log-reg",
+                      "t": "dir",
+                      "c": [
+                        {
+                          "n": "framingham.csv",
+                          "t": "file"
+                        },
+                        {
+                          "n": "link.txt",
+                          "t": "file"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "n": "etl",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "extractors.py",
+                  "t": "file"
+                },
+                {
+                  "n": "loaders.py",
+                  "t": "file"
+                },
+                {
+                  "n": "transformers.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "preprocessing",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "encoders.py",
+                  "t": "file"
+                },
+                {
+                  "n": "feature_engineering.py",
+                  "t": "file"
+                }
+              ]
+            },
+            {
+              "n": "validation",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "data_quality.py",
+                  "t": "file"
+                },
+                {
+                  "n": "schema_validator.py",
+                  "t": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": "main.py",
+          "t": "file"
+        },
+        {
+          "n": "models",
+          "t": "dir",
+          "c": [
+            {
+              "n": "asistencias",
+              "t": "dir",
+              "c": []
+            },
+            {
+              "n": "base.py",
+              "t": "file"
+            },
+            {
+              "n": "flujo_atencion",
+              "t": "dir",
+              "c": []
+            },
+            {
+              "n": "hospitalizaciones",
+              "t": "dir",
+              "c": []
+            },
+            {
+              "n": "riesgo_cardiovascular",
+              "t": "dir",
+              "c": [
+                {
+                  "n": "comparador.py",
+                  "t": "file"
+                },
+                {
+                  "n": "evaluator.py",
+                  "t": "file"
+                },
+                {
+                  "n": "feature_selector.py",
+                  "t": "file"
+                },
+                {
+                  "n": "pipeline.py",
+                  "t": "file"
+                },
+                {
+                  "n": "trainer.py",
+                  "t": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": "utils",
+          "t": "dir",
+          "c": [
+            {
+              "n": "metrics.py",
+              "t": "file"
+            },
+            {
+              "n": "model_registry.py",
+              "t": "file"
+            },
+            {
+              "n": "visualizations.py",
+              "t": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": "test_cv_api.py",
+      "t": "file"
+    },
+    {
+      "n": "tests",
+      "t": "dir",
+      "c": [
+        {
+          "n": "cv_training_test.py",
+          "t": "file"
+        },
+        {
+          "n": "mini_test.py",
+          "t": "file"
+        },
+        {
+          "n": "test_api.py",
+          "t": "file"
+        },
+        {
+          "n": "test_api_riesgo_cv.py",
+          "t": "file"
+        },
+        {
+          "n": "test_riesgo_cv.py",
+          "t": "file"
+        }
+      ]
+    }
+  ]
+}

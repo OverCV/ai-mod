@@ -1,0 +1,88 @@
+features:
+  - id: estructura-base
+    nombre: "Estructura base del proyecto"
+    descripcion: "Configuración inicial del proyecto y estructura de directorios"
+    dependencies: []
+    tasks:
+      - id: dirs-api
+        desc: "Crear estructura de directorios API"
+        details: |
+          Crear la estructura básica de directorios para la API FastAPI:
+          - code/api/core/classes
+          - code/api/core/middlewares
+          - code/api/core/repository
+          - code/api/core/routes
+          - code/api/core/services
+        test_command: "test -d code/api/core/classes && test -d code/api/core/middlewares && echo PASSED || echo FAILED"
+      
+      - id: dirs-src
+        desc: "Crear estructura de directorios SRC"
+        details: |
+          Crear la estructura básica de directorios para el entrenamiento de modelos:
+          - code/src/config
+          - code/src/data/etl
+          - code/src/data/preprocessing
+          - code/src/data/validation
+          - code/src/models/cardiovascular
+          - code/src/utils
+        test_command: "test -d code/src/data/etl && test -d code/src/models/cardiovascular && echo PASSED || echo FAILED"
+      
+      - id: config-base
+        desc: "Configuración básica del proyecto"
+        details: |
+          Crear archivos de configuración básicos:
+          - code/api/main.py (Punto de entrada FastAPI)
+          - code/src/config/settings.py (Configuración para entrenamiento)
+          - code/api/core/init.py (Inicializador)
+        test_command: "test -f code/api/main.py && test -f code/src/config/settings.py && echo PASSED || echo FAILED"
+
+  - id: modelos-datos
+    nombre: "Modelos de datos y esquemas"
+    descripcion: "Definición de modelos de datos para la aplicación"
+    dependencies: ["estructura-base"]
+    tasks:
+      - id: schemas-cv
+        desc: "Esquemas para datos cardiovasculares"
+        details: |
+          Crear esquemas Pydantic para modelar datos cardiovasculares:
+          - code/api/core/classes/schemas/riesgo_cv.py
+            * Incluir esquemas para entrada (datos del paciente)
+            * Incluir esquemas para salida (predicción de riesgo)
+          
+          Utilizar tipos apropiados para cada campo y validaciones.
+        test_command: "test -f code/api/core/classes/schemas/riesgo_cv.py && echo PASSED || echo FAILED"
+      
+      - id: enums-cv
+        desc: "Enumeraciones para clasificación"
+        details: |
+          Crear enumeraciones para clasificaciones y valores constantes:
+          - code/api/core/classes/enums/configuracion.py
+            * Niveles de riesgo (BAJO, MEDIO, ALTO)
+            * Tipos de pacientes
+            * Rangos de valores para cada parámetro
+        test_command: "test -f code/api/core/classes/enums/configuracion.py && echo PASSED || echo FAILED"
+      
+      - id: tables-db
+        desc: "Tablas y modelos de base de datos"
+        details: |
+          Definir modelos ORM para almacenamiento de datos:
+          - code/api/core/classes/tables.py
+            * Modelo para datos de paciente
+            * Modelo para predicciones realizadas
+            * Modelo para parámetros de modelo
+        test_command: "test -f code/api/core/classes/tables.py && echo PASSED || echo FAILED"
+
+  - id: conexion-db
+    nombre: "Conexión a base de datos"
+    descripcion: "Configuración de conexión a bases de datos"
+    dependencies: ["estructura-base"]
+    tasks:
+      - id: motors-db
+        desc: "Configuración de motores de base de datos"
+        details: |
+          Crear configuración para conexión a bases de datos:
+          - code/api/core/data/motors.py
+            * Configuración para SQLite (desarrollo)
+            * Configuración para PostgreSQL (producción)
+            * Funciones para inicializar conexiones
+        test_command: "test -f code/api/core/data/motors.py && echo PASSED || echo FAILED"

@@ -1,0 +1,36 @@
+id: integracion-db-riesgo-cv
+nombre: "Integración con PostgreSQL para Riesgo Cardiovascular"
+descripcion: "Integración completa entre la API de predicción de riesgo cardiovascular y la base de datos PostgreSQL, incluyendo almacenamiento de predicciones, lectura de datos de pacientes reales, y generación de seguimiento histórico. Se desarrollaron scripts de prueba que verifican y crean datos de prueba cuando sea necesario."
+progreso: 100
+tareas:
+  - id: db-01
+    desc: "Conexión con PostgreSQL para predicciones"
+    estado: "completado"
+    rutas: ["base-datos"]
+  - id: db-02
+    desc: "Implementación de repositorio de predicciones"
+    estado: "completado"
+    rutas: ["base-datos", "repositorio"]
+  - id: db-03
+    desc: "Integración de datos clínicos del paciente"
+    estado: "completado"
+    rutas: ["base-datos", "integración"]
+  - id: db-04
+    desc: "Almacenamiento de resultados de predicción"
+    estado: "completado"
+    rutas: ["base-datos", "servicio"]
+  - id: db-05
+    desc: "Endpoint para historial de predicciones"
+    estado: "completado"
+    rutas: ["api"]
+  - id: db-06
+    desc: "Endpoint para estado de salud del paciente"
+    estado: "completado"
+    rutas: ["api"]
+  - id: db-07
+    desc: "Scripts de prueba para verificar integración"
+    estado: "completado"
+    rutas: ["testing"]
+pruebas:
+  unitarias: "Se crearon pruebas unitarias para la integración con PostgreSQL, verificando la correcta inserción, consulta y actualización de datos."
+  integracion: "Pruebas de integración que crean datos de prueba si es necesario, realizan predicciones y almacenan resultados en PostgreSQL. Se verifica la integridad de los datos y el funcionamiento completo del flujo de trabajo."

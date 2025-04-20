@@ -1,0 +1,10 @@
+features:
+  - id: estructura-base
+    nombre: "Estructura base del proyecto"
+    descripcion: "Configuración inicial del proyecto"
+    dependencies: []
+    tasks:
+      - id: dirs-api
+        desc: "Crear estructura de directorios API"
+        details: "Crear directorios para la API"
+        test_command: "test -d code/api && echo PASSED || echo FAILED"
