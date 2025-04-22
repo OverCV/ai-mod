@@ -44,8 +44,8 @@ export function registerStyleMcp(server: McpServer) {
 
     // Herramienta mcd - Comando principal para inicializar Framework MCP-CODE
     server.tool(
-        'mcd',
-        "Inicializa el Framework MCP-CODE",
+        'mcdp',
+        "Inicializa el Model Context Development Protocol (MCP-CODE)",
         {
             description: z.string().describe("Configura Claude con el Framework MCP-CODE"),
             parameters: z.object({

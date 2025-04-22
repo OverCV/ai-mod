@@ -1,0 +1,1 @@
+para el proceso de definición de los árboles es mejor no hacer uso de los módulos generadores de árboles con un directorio por que el mismo modelo sea capaz de generarlo (pero eso igual debería ser posible ignorando los archivos que se necesiten, obvioando los módulos por ejemplo los node_modules venv y así)

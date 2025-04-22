@@ -29,7 +29,7 @@ class DatabaseConnector:
                 autoflush=False, 
                 bind=self.engine
             ))
-            logger.info(f"Conexión establecida con la base de datos")
+            logger.info("Conexión establecida con la base de datos")
             return True
         except Exception as e:
             logger.error(f"Error al conectar con la base de datos: {str(e)}")

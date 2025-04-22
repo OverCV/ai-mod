@@ -3,6 +3,28 @@ import fs from 'fs-extra'
 import path from 'path'
 import { DetailedElement, DetailedNode, IGNORE_DIRS } from '../types/index.js'
 
+// En scanner.ts, añadir una función para generar árboles ASCII
+export async function generateAsciiTree(rootDir: string, ignorePatterns: string[] = IGNORE_DIRS): Promise<string> {
+    // Escanear el directorio primero
+    const { detailed } = await scanProject(rootDir);
+
+    // Convertir la estructura detallada a ASCII
+    return convertToAscii(detailed, 0);
+}
+
+function convertToAscii(node: DetailedNode, level: number): string {
+    const indent = level === 0 ? '' : '|   '.repeat(level - 1) + '|-- ';
+    let result = `${indent}${node.n}\n`;
+
+    if (node.c && node.c.length > 0) {
+        for (const child of node.c) {
+            result += convertToAscii(child, level + 1);
+        }
+    }
+
+    return result;
+}
+
 /**
  * Escanea un proyecto y genera árboles de directorios
  */
@@ -56,7 +78,6 @@ async function scanDirectory(
                 // Escanear recursivamente
                 await scanDirectory(itemPath, detailedNode)
             } else {
-
 
                 const detailedNode: DetailedNode = {
                     n: item,

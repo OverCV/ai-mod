@@ -1,5 +1,7 @@
 # Framework MCP-CODE
 
+Este framework busca...
+
 ## Estructura Fundamental
 
 El proyecto se divide en dos directorios principales:
@@ -7,7 +9,7 @@ El proyecto se divide en dos directorios principales:
 ```
 proyecto/
 ├── code/       # Implementación del problema en el lenguaje apropiado
-└── mcp/        # Tooling, configuración y gestión del proyecto
+└── meta/mcp/   # Tooling, configuración y gestión del proyecto
 ```
 
 ### Directorio `code/`
@@ -21,9 +23,11 @@ Contiene la implementación concreta del problema, organizada según el paradigm
 Elementos críticos dentro de `code/`:
 
 - `context/`: Árboles de directorio y metadatos del proyecto
-  - Habrán árboles con directorios de `code/` únicamente
-  - Árbol ASCII para visión rápida (`arbol_*.txt`)
-  - Árboles detallados en JSON para análisis profundo (`project_tree_*.json`)
+  - Habrán árboles con directorios de `code/**` únicamente
+  - Árbol ASCII para visión rápida (`code/context/tree_ascii.txt`)
+    - Árboles en JSON para análisis de la estructura (`code/context/tree_project.json`)
+
+    *acá está el problema que podría resolverse con el RAG*
 
 - `tracking/`: Seguimiento del progreso de features y estado global
   - `features/`: Archivos YAML detallando cada funcionalidad
@@ -39,16 +43,16 @@ Elementos críticos dentro de `code/`:
   - Configuración necesaria para desarrollo/producción
   - Descripción de componentes principales y su interacción
 
-Así mismo según se defina el proyecto habrán sub-directorios adicionales como `code/src/`, `code/app/`, etc.
+Así mismo según se defina el proyecto habrán sub-directorios adicionales como `code/src/`, `code/app/` o similar.
 
-### Directorio `mcp/`
+### Directorio `meta/mcp/`
 
 Centro de operaciones para la gestión del proyecto:
 
 - `context/`: Árboles de directorio y metadatos del proyecto
-  - Habrán árboles con directorios de `mcp/` únicamente
-  - Árbol ASCII para visión rápida (`arbol_*.txt`)
-  - Árboles detallados en JSON para análisis profundo (`project_tree_*.json`)
+  - Habrán árboles con directorios de `meta/mcp/**` únicamente
+  - Árbol ASCII para visión rápida (`meta/mcp/context/tree_ascii.txt`)
+  - Árboles detallados en JSON para análisis profundo (`meta/mcp/context/tree_project.json`)
 
 - `tools/`: Herramientas personalizadas para el proyecto
   - Scripts de automatización
@@ -66,16 +70,15 @@ Acá todo código de implementación concreto será en TypeScript.
 
 ### Inicio del Proyecto
 
-1. Ejecución de `mcd` con parámetros de configuración inicial
-   - Revisa el árbol detallado de `code/context/` si hay, si no hace un escaneo del directorio `code/` para actualizar el árbol ascii *(el detallado surge de comprender el objetivo del proyecto y poder crear estos nodos significativos)*
-   - Procede a revisar si hay features definidas en `code/tracking/features/`
-   - Si el usuario no ha definido features, le pregunta si desea crear una nueva
-
-   - Define arquitectura base del proyecto
-   - Establece convenciones de código y estructura
+1. Ejecución de `mcdp` con parámetros de configuración inicial
    - Complementa con el estilo predefinido desarrollo del LLM (Experto | Senior | Arquitecto)
+   - Revisa el árbol JSON de `code/context/` si hay, si no hace un escaneo del directorio `code/tracking/features/` para ver qué hay definido.
+     - En caso que no haya nada definido, pregunta al usuario si desea crear un nuevo árbol de directorios y archivos para el proyecto.
+       - Define arquitectura base del proyecto
+       - Establece convenciones de código y estructura
+     - Tras primero definir con el usuario las features se pasa con la creación de un arbol ascii *(pues surge de comprender el objetivo del proyecto y poder crear nodos significativos)*
 
-2. Implementación de arquitectura base siguiendo principios sólidos
+2. Implementación de arquitectura base siguiendo principios SOLID
    - Clean Architecture / Screaming Architecture
    - Estructura modular y testable
    - Documentación clara de decisiones arquitectónicas
@@ -93,7 +96,7 @@ El lenguaje de desarrollo claro es lo que ya se haya pre-definido pero fundament
 
 2. **Implementación**
    - Desarrollo siguiendo la estructura definida
-   - Creación de tests en `code/tests/` (si aplica, según lenguaje)
+   - Creación de tests en `code/tests/` (si aplica y según lenguaje)
    - Actualización del árbol del proyecto periódicamente
 
 3. **Pruebas**
@@ -119,7 +122,7 @@ El lenguaje de desarrollo claro es lo que ya se haya pre-definido pero fundament
    - Validación de que los cambios respetan la arquitectura definida
 
 3. **Dashboard de Progreso**
-   - Visualización gráfica del progreso basada en `status.yaml`
+   - Visualización gráfica del progreso basada en `code/tracking/status.yaml`
    - Integración con herramientas de CI/CD
 
 ### Extensiones MCP
@@ -146,4 +149,4 @@ Este marco de trabajo proporciona:
 4. **Automatización** de tareas repetitivas
 5. **Gestión efectiva** de problemas y soluciones
 
-La separación entre `code/` y `mcp/` permite una clara distinción entre la implementación del problema y la infraestructura de gestión, facilitando el desarrollo colaborativo y la evolución del proyecto a lo largo del tiempo. Así mismo es importante que revises el directorio en el que estás trabajando ya que es usual que al no mirarlo creas estás haciendo algo en `mcp/` y lo estás haciendo en `code/` o viceversa.
+La separación entre `code/` y `meta/mcp/` permite una clara distinción entre la implementación del problema y la infraestructura de gestión, facilitando el desarrollo colaborativo y la evolución del proyecto a lo largo del tiempo. Así mismo es importante que revises el directorio en el que estás trabajando ya que es usual que al no mirarlo creas estás haciendo algo en `meta/mcp/` y lo estás haciendo en `code/` o viceversa.

@@ -5,30 +5,166 @@ Sistema para predicción de riesgo cardiovascular basado en factores clínicos, 
 ## Estructura del proyecto
 
 ```
-code/
-├── api/                            # API RESTful con FastAPI
-│   ├── .env/                       # Variables de entorno
-│   ├── core/                       # Núcleo de la API
-│   │   ├── classes/                # Clases y esquemas
-│   │   ├── middlewares/            # Middlewares
-│   │   ├── routes/                 # Rutas de la API
-│   │   └── services/               # Servicios de negocio
-│   ├── main.py                     # Punto de entrada
-│   └── run.py                      # Script para iniciar la API
-├── models/                         # Modelos entrenados
-│   └── r_cardio/                   # Modelos de riesgo cardiovascular
-├── src/                            # Módulo de ciencia de datos
-│   ├── config/                     # Configuraciones
-│   ├── data/                       # Procesamiento de datos
-│   │   ├── datasets/               # Conjuntos de datos
-│   │   ├── etl/                    # Extractores, transformadores y cargadores
-│   │   ├── preprocessing/          # Preprocesamiento
-│   │   └── validation/             # Validación de datos
-│   ├── models/                     # Modelos de ML
-│   │   ├── base.py                 # Clase base para modelos
-│   │   ├── riesgo_cardiovascular/  # Modelos CV
-│   └── utils/                      # Utilidades
-└── tests/                          # Pruebas unitarias
+├── README.md
+├── api/
+│   ├── .env/
+│   │   └── api.env
+│   ├── README.md
+│   ├── core/
+│   │   ├── classes/
+│   │   │   ├── configuracion.py
+│   │   │   ├── schemas/
+│   │   │   │   └── riesgo_cv.py
+│   │   │   └── tables.py
+│   │   ├── data/
+│   │   │   ├── db_connector.py
+│   │   │   └── motors.py
+│   │   ├── middlewares/
+│   │   │   ├── auth.py
+│   │   │   ├── excepcion.py
+│   │   │   └── perfilado.py
+│   │   ├── repository/
+│   │   │   └── predicciones.py
+│   │   ├── routes/
+│   │   │   ├── autenticacion.py
+│   │   │   └── riesgo_cv.py
+│   │   └── services/
+│   │       └── riesgo_cv.py
+│   ├── main.py
+│   ├── models/
+│   │   ├── README.md
+│   │   └── r_cardio/
+│   │       ├── cardio_features.txt
+│   │       ├── cardio_model.pkl
+│   │       ├── comparativa_modelos.csv
+│   │       ├── feature_importance.csv
+│   │       ├── feature_importance.png
+│   │       ├── features.txt
+│   │       ├── matriz_confusion.png
+│   │       ├── mejor_modelo.pkl
+│   │       ├── rf_cardio_features.txt
+│   │       ├── rf_cardio_scaler.pkl
+│   │       ├── roc_curves.png
+│   │       └── scaler.pkl
+│   ├── requirements.txt
+│   ├── run.py
+│   ├── test_api.py
+│   └── utils/
+│       ├── __init__.py
+│       └── update_models.py
+├── http_test.py
+├── mcp/
+│   ├── .env
+│   ├── app/
+│   │   ├── main.ts
+│   │   ├── shared/
+│   │   │   ├── database.mcp.ts
+│   │   │   └── index.ts
+│   │   └── tools/
+│   │       └── database.ts
+│   ├── package-lock.json
+│   └── temp/
+│       ├── database.mcp.ts
+│       └── testfile.txt
+├── models/
+│   └── r_cardio/
+│       ├── cardio_features.txt
+│       ├── cardio_model.pkl
+│       ├── comparativa_modelos.csv
+│       ├── feature_importance.csv
+│       ├── feature_importance.png
+│       ├── features.txt
+│       ├── matriz_confusion.png
+│       ├── mejor_modelo.pkl
+│       ├── rf_cardio_features.txt
+│       ├── rf_cardio_model.pkl
+│       ├── rf_cardio_scaler.pkl
+│       ├── roc_curves.png
+│       └── scaler.pkl
+├── requirements.txt
+├── src/
+│   ├── __init__.py
+│   ├── config/
+│   │   ├── __init__.py
+│   │   ├── logging_config.py
+│   │   └── settings.py
+│   ├── data/
+│   │   ├── __init__.py
+│   │   ├── datasets/
+│   │   │   ├── __init__.py
+│   │   │   ├── rehospitalizacion/
+│   │   │   └── riesgo_cardiovascular/
+│   │   │       ├── enfermedades_cardiovasculares.csv
+│   │   │       ├── heart+disease/
+│   │   │       │   ├── Index
+│   │   │       │   ├── WARNING
+│   │   │       │   ├── ask-detrano
+│   │   │       │   ├── bak
+│   │   │       │   ├── cleve.mod
+│   │   │       │   ├── cleveland.data
+│   │   │       │   ├── costs/
+│   │   │       │   │   ├── Index
+│   │   │       │   │   ├── heart-disease.README
+│   │   │       │   │   ├── heart-disease.cost
+│   │   │       │   │   ├── heart-disease.delay
+│   │   │       │   │   ├── heart-disease.expense
+│   │   │       │   │   └── heart-disease.group
+│   │   │       │   ├── heart-disease.names
+│   │   │       │   ├── hungarian.data
+│   │   │       │   ├── link.txt
+│   │   │       │   ├── long-beach-va.data
+│   │   │       │   ├── new.data
+│   │   │       │   ├── processed.cleveland.data
+│   │   │       │   ├── processed.hungarian.data
+│   │   │       │   ├── processed.switzerland.data
+│   │   │       │   ├── processed.va.data
+│   │   │       │   ├── reprocessed.hungarian.data
+│   │   │       │   └── switzerland.data
+│   │   │       ├── hospitalizacion_dataset.csv
+│   │   │       └── log-reg/
+│   │   │           ├── framingham.csv
+│   │   │           └── link.txt
+│   │   ├── etl/
+│   │   │   ├── __init__.py
+│   │   │   ├── extractors.py
+│   │   │   ├── loaders.py
+│   │   │   └── transformers.py
+│   │   ├── preprocessing/
+│   │   │   ├── __init__.py
+│   │   │   ├── encoders.py
+│   │   │   └── feature_engineering.py
+│   │   └── validation/
+│   │       ├── __init__.py
+│   │       ├── data_quality.py
+│   │       └── schema_validator.py
+│   ├── main.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── asistencias/
+│   │   ├── base.py
+│   │   ├── flujo_atencion/
+│   │   ├── hospitalizaciones/
+│   │   └── riesgo_cardiovascular/
+│   │       ├── __init__.py
+│   │       ├── comparador.py
+│   │       ├── evaluator.py
+│   │       ├── feature_selector.py
+│   │       ├── pipeline.py
+│   │       └── trainer.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── metrics.py
+│       ├── model_registry.py
+│       └── visualizations.py
+├── test_cv_api.py
+└── tests/
+    ├── __init__.py
+    ├── cv_training_test.py
+    ├── mini_test.py
+    ├── test_api.py
+    ├── test_api_riesgo_cv.py
+    └── test_riesgo_cv.py
+
 ```
 
 ## Configuración

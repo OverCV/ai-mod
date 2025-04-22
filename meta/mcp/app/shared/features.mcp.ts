@@ -32,7 +32,8 @@ export function registerFeaturesMcp(server: McpServer) {
                 pruebas: z.object({
                     unitarias: z.string(),
                     integracion: z.string().optional()
-                }).optional()
+                }).optional(),
+                fecha_fin: z.string().optional().describe("Fecha de finalización (YYYY-MM-DD)").optional()
             }),
         },
         async ({ parameters }) => {
@@ -45,6 +46,8 @@ export function registerFeaturesMcp(server: McpServer) {
                 content += `nombre: "${parameters.nombre}"\n`
                 content += `descripcion: "${parameters.descripcion}"\n`
                 content += `progreso: ${parameters.progreso}\n`
+                content += `fecha_incio: ${new Date().toISOString()}\n`
+
 
                 if (parameters.tareas && parameters.tareas.length > 0) {
                     content += `tareas:\n`
@@ -64,6 +67,10 @@ export function registerFeaturesMcp(server: McpServer) {
                     if (parameters.pruebas.integracion) {
                         content += `  integracion: ${parameters.pruebas.integracion}\n`
                     }
+                }
+
+                if (parameters.fecha_fin) {
+                    content += `fecha_fin: ${parameters.fecha_fin}\n`
                 }
 
                 await fs.writeFile(featurePath, content)

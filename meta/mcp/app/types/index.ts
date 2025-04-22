@@ -20,6 +20,8 @@ export const IGNORE_DIRS = [
 //     c?: BasicNode[];     // contenido (hijos)
 // }
 
+
+
 // Tipos para elementos detallados
 export type DetailedElement = {
     t: 'fn' | 'cls' | 'var';  // tipo: función, clase, variable
@@ -67,6 +69,8 @@ export type Feature = {
     nombre: string;
     descripcion: string;
     progreso: number;      // 0-100
+    fecha_inicio: string; // formato: YYYY-MM-DD
+    fecha_fin?: string;   // formato: YYYY-MM-DD
     tareas?: Task[];
     pruebas?: TestStatus;
 }

@@ -1,14 +1,18 @@
 // mcp\app\shared\scan.mcp.ts
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { z } from "zod"
-import { scanProject } from "../tools/scanner.js"
+import { generateAsciiTree, scanProject } from "../tools/scanner.js"
 import { logChange } from "../utils/logger.js"
 import { debug } from "../utils/fileLogger.js"
 
 import path from "path"
 import paths from "../config/paths.js"
 import fs from "fs-extra"
+import { writeFile } from "../tools/filesystem.js"
+import { IGNORE_DIRS } from "../types/index.js"
 
+
+// todo: RAG
 /**
  * Registra la herramienta de escaneo de proyecto en el servidor MCP
  */
@@ -20,7 +24,7 @@ export function registerScanMcp(server: McpServer) {
         {
             description: z.string().describe("Escanea el proyecto y actualiza árboles de directorios"),
             parameters: z.object({
-                directorio: z.string().optional().describe("Directorio a escanear (code | mcp)"),
+                directorio: z.string().optional().describe("Directorio a escanear (code | meta)"),
             }),
         },
         async ({ parameters }) => {
@@ -34,7 +38,7 @@ export function registerScanMcp(server: McpServer) {
 
                 // Guardar árbol básico
                 await fs.writeFile(
-                    path.join(paths.metaContextDir, `project_tree_full_${dirToScan}.json`),
+                    path.join(paths.metaContextDir, `project_tree_${dirToScan}.json`),
                     JSON.stringify(detailed, null, 2)
                 )
 
