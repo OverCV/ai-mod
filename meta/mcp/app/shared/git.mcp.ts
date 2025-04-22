@@ -90,9 +90,8 @@ export function registerGithubMcp(server: McpServer) {
     // Herramienta para hacer commit y push a GitHub
     server.tool(
         'commit-push',
-        "Realiza commit y push de los cambios a GitHub",
+        "Realiza commit y push de los cambios a GitHub. Guarda cambios en GitHub",
         {
-            description: z.string().describe("Guarda cambios en GitHub"),
             parameters: z.object({
                 mensaje: z.string().describe("Mensaje del commit")
             }),
@@ -163,9 +162,8 @@ export function registerGithubMcp(server: McpServer) {
     // Herramienta para gestionar ramas
     server.tool(
         'gestionar-rama',
-        "Gestiona ramas de Git",
+        "Gestiona ramas de Git. Crea o cambia a una rama",
         {
-            description: z.string().describe("Crea o cambia a una rama"),
             parameters: z.object({
                 nombre: z.string().describe("Nombre de la rama"),
                 crear: z.boolean().optional().describe("Si es true, crea la rama si no existe")
@@ -250,6 +248,6 @@ export function registerGithubMcp(server: McpServer) {
         }
     )
 
-    // Herramienta para pull requests
+    // todo: Herramienta para pull requests
 }
 

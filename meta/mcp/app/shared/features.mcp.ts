@@ -15,9 +15,8 @@ export function registerFeaturesMcp(server: McpServer) {
     // Herramienta para crear/actualizar feature
     server.tool(
         'set-feature',
-        "Crear/actualizar una característica del proyecto",
+        "Crear/actualizar una característica del proyecto. Gestiona el seguimiento de una característica",
         {
-            description: z.string().describe("Gestiona el seguimiento de una característica"),
             parameters: z.object({
                 id: z.string().describe("ID de la característica"),
                 nombre: z.string().describe("Nombre descriptivo"),

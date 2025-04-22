@@ -20,9 +20,8 @@ export function registerFileMcp(server: McpServer) {
 
     server.tool(
         'archivo-leer',
-        "Lee el contenido de un archivo",
+        "Lee el contenido de un archivo. Lee un archivo del proyecto",
         {
-            description: z.string().describe("Lee un archivo del proyecto"),
             parameters: z.object({
                 ruta: z.string().describe("Ruta relativa al archivo desde la raíz del proyecto")
             }),
@@ -59,9 +58,8 @@ export function registerFileMcp(server: McpServer) {
     // Herramienta para escribir archivos
     server.tool(
         'archivo-crear',
-        "Crea un archivo condicionado por los tokensde respuesta",
+        "Crea un archivo condicionado por los tokens de respuesta. Escribe contenido en un archivo",
         {
-            description: z.string().describe("Escribe contenido en un archivo"),
             parameters: z.object({
                 en_code: z.boolean().describe("La ruta actual es en `code/`? sino será `meta/mpc/` (desde la raíz)(usado para el escaneo)"),
                 ruta: z.string().describe("Ruta relativa del proyecto raíz al archivo"),
@@ -137,9 +135,8 @@ export function registerFileMcp(server: McpServer) {
     // Herramienta para modificar parte de un archivo
     server.tool(
         'archivo-editar',
-        "Modifica una parte específica de un archivo",
+        "Modifica una parte específica de un archivo. Reemplaza texto dentro de un archivo",
         {
-            description: z.string().describe("Reemplaza texto dentro de un archivo"),
             parameters: z.object({
                 ruta: z.string().describe("Ruta relativa al archivo desde la raíz del proyecto"),
                 buscar: z.string().describe("Texto a buscar"),
@@ -189,9 +186,8 @@ export function registerFileMcp(server: McpServer) {
     // Herramienta para mover archivos
     server.tool(
         'mover-archivo',
-        "Mueve un archivo o directorio a otra ubicación",
+        "Mueve un archivo o directorio a otra ubicación. Mueve un archivo o directorio a otra ubicación",
         {
-            description: z.string().describe("Mueve un archivo o directorio a otra ubicación"),
             parameters: z.object({
                 origen: z.string().describe("Ruta relativa al archivo o directorio a mover"),
                 destino: z.string().describe("Ruta relativa al nuevo destino"),

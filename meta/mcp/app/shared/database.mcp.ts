@@ -13,9 +13,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para probar la conexión
   server.tool(
     'probar-conexion-db',
-    "Prueba la conexión a la base de datos PostgreSQL",
+    "Prueba la conexión a la base de datos PostgreSQL. Verifica que la conexión funcione correctamente",
     {
-      description: z.string().describe("Verifica que la conexión funcione correctamente"),
       parameters: z.object({}),
     },
     async () => {
@@ -46,9 +45,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para configurar la variable de entorno para BD
   server.tool(
     'configurar-database',
-    "Configura el nombre de la variable de entorno para la conexión a la base de datos",
+    "Configura el nombre de la variable de entorno para la conexión a la base de datos.",
     {
-      description: z.string().describe("Establece el nombre de la variable de entorno a usar"),
       parameters: z.object({
         envName: z.string().describe("Nombre de la variable de entorno (por defecto: DATABASE_URL)")
       }),
@@ -93,9 +91,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para listar tablas
   server.tool(
     'listar-tablas',
-    "Lista todas las tablas en la base de datos",
+    "Lista todas las tablas en la base de datos. Obtiene los nombres de todas las tablas",
     {
-      description: z.string().describe("Obtiene los nombres de todas las tablas"),
       parameters: z.object({}),
     },
     async () => {
@@ -160,9 +157,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para describir la estructura de una tabla
   server.tool(
     'describir-tabla',
-    "Describe la estructura de una tabla",
+    "Describe la estructura de una tabla. Obtiene información detallada de las columnas de una tabla",
     {
-      description: z.string().describe("Obtiene información detallada de las columnas de una tabla"),
       parameters: z.object({
         nombre: z.string().describe("Nombre de la tabla a describir")
       }),
@@ -305,9 +301,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para ejecutar consultas SELECT
   server.tool(
     'ejecutar-query',
-    "Ejecuta una consulta SQL en PostgreSQL",
+    "Ejecuta una consulta SQL en PostgreSQL. Solo lectura",
     {
-      description: z.string().describe("Ejecuta una consulta SQL de solo lectura"),
       parameters: z.object({
         query: z.string().describe("Consulta SQL a ejecutar (solo SELECT)"),
         params: z.array(z.any()).optional().describe("Parámetros para la consulta")
@@ -400,9 +395,8 @@ export function registerDatabaseMcp(server: McpServer) {
   // Herramienta para crear una tabla (esquema)
   server.tool(
     'crear-tabla',
-    "Crea una nueva tabla en la base de datos",
+    "Crea una nueva tabla en la base de datos. Crea una tabla según el esquema especificado",
     {
-      description: z.string().describe("Crea una tabla según el esquema especificado"),
       parameters: z.object({
         nombre: z.string().describe("Nombre de la tabla a crear"),
         schema: z.string().describe("Definición SQL de la tabla (CREATE TABLE ...)"),

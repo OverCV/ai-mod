@@ -14,9 +14,8 @@ export function registerSystemMcp(server: McpServer) {
     // Herramienta para recargar el MetaMCP
     server.tool(
         'recargar-mcp',
-        "Recarga el servidor MetaMCP para aplicar cambios",
+        "Recarga el servidor MetaMCP para aplicar cambios. Reinicia el servidor MetaMCP",
         {
-            description: z.string().describe("Reinicia el servidor MetaMCP"),
             parameters: z.object({}),
         },
         async () => {
@@ -57,9 +56,8 @@ export function registerSystemMcp(server: McpServer) {
     // Herramienta para ejecutar comandos del sistema
     server.tool(
         'ejecutar-comando',
-        "Ejecuta un comando en la terminal",
+        "Ejecuta un comando en la terminal. Ejecuta un comando del sistema operativo",
         {
-            description: z.string().describe("Ejecuta un comando del sistema operativo"),
             parameters: z.object({
                 comando: z.string().describe("Comando a ejecutar"),
                 directorio: z.string().optional().describe("Directorio donde ejecutar (por defecto: code/)")

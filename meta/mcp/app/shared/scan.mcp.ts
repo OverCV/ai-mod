@@ -20,9 +20,8 @@ export function registerScanMcp(server: McpServer) {
     // Herramienta para escanear el proyecto
     server.tool(
         'escanear-proyecto',
-        "Escanea el proyecto y genera árboles de directorios",
+        "Escanea el proyecto y genera árboles de directorios. Escanea el proyecto y actualiza árboles de directorios",
         {
-            description: z.string().describe("Escanea el proyecto y actualiza árboles de directorios"),
             parameters: z.object({
                 directorio: z.string().optional().describe("Directorio a escanear (code | meta)"),
             }),

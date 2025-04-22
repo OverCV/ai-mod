@@ -47,11 +47,10 @@ export function registerStyleMcp(server: McpServer) {
         'mcdp',
         "Inicializa el Model Context Development Protocol (MCP-CODE)",
         {
-            description: z.string().describe("Configura Claude con el Framework MCP-CODE"),
             parameters: z.object({
                 modo: z.string().optional().describe("Campo de experiencia (back, front, fullstack, etc)"),
                 proy: z.string().optional().describe("Tipo de proyecto (web, api, etc.)"),
-                extra: z.string().optional().describe("Información adicional para el framework")
+                extra: z.string().optional().describe("Información adicional para el framework"),
             }),
         },
         async ({ parameters }) => {
@@ -115,7 +114,9 @@ export function registerStyleMcp(server: McpServer) {
                             type: "text",
                             text: `# Inicialización de Framework MCP-CODE
 
-${projectContext}Estoy configurado para asistirte como un **${modo.toUpperCase()}** en desarrollo de proyectos de **${proyecto.toUpperCase()}**.
+${styleOutput}
+
+Estoy configurado para asistirte como un **${modo.toUpperCase()}** en desarrollo de proyectos de **${proyecto.toUpperCase()}**.
 
 A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo. Esto implica:
 
@@ -151,7 +152,6 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
         'listar-perfiles',
         "Lista todos los perfiles disponibles para mcd",
         {
-            description: z.string().describe("Muestra los perfiles que se pueden aplicar"),
             parameters: z.object({}),
         },
         async () => {
@@ -214,9 +214,8 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
     // Listar tipos de proyecto disponibles
     server.tool(
         'listar-proyectos',
-        "Lista todos los tipos de proyecto disponibles para mcd",
+        "Lista todos los tipos de proyecto disponibles para mcd. Muestra los tipos de proyecto que se pueden aplicar",
         {
-            description: z.string().describe("Muestra los tipos de proyecto que se pueden aplicar"),
             parameters: z.object({}),
         },
         async () => {
@@ -279,9 +278,8 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
     // Crear un nuevo perfil
     server.tool(
         'estilo-perfil',
-        "Crea un nuevo perfil de desarrollador",
+        "Crea un nuevo perfil de desarrollador. Guarda un perfil para uso con mcdp",
         {
-            description: z.string().describe("Guarda un perfil para uso con mcd"),
             parameters: z.object({
                 nombre: z.string().describe("Nombre único para el perfil (ej: arquitecto)"),
                 contenido: z.string().describe("Contenido markdown del perfil"),
@@ -343,9 +341,8 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
     // Crear un nuevo tipo de proyecto
     server.tool(
         'estilo-proyecto',
-        "Crea un nuevo tipo de proyecto",
+        "Crea un nuevo tipo de proyecto. Guarda un tipo de proyecto para uso con mcdp",
         {
-            description: z.string().describe("Guarda un tipo de proyecto para uso con mcd"),
             parameters: z.object({
                 nombre: z.string().describe("Nombre único para el tipo de proyecto (ej: api)"),
                 contenido: z.string().describe("Contenido markdown con el enfoque del proyecto"),
