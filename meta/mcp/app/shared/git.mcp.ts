@@ -26,17 +26,17 @@ export function registerGithubMcp(server: McpServer) {
     //     "Configura la integración con GitHub",
     //     {
     //         description: z.string().describe("Configura la integración con GitHub"),
-    //         parameters: z.object({
+    //         params: z.object({
     //             token: z.string().describe("Token de acceso personal de GitHub"),
     //             owner: z.string().describe("Propietario del repositorio"),
     //             repo: z.string().describe("Nombre del repositorio"),
     //             branch: z.string().optional().describe("Rama principal (default: main)")
     //         }),
     //     },
-    //     async ({ parameters }) => {
+    //     async ({ params }) => {
     //         try {
     //             // Extraer el nombre del repositorio sin la URL completa si se proporcionó así
-    //             let repoName = parameters.repo
+    //             let repoName = params.repo
     //             if (repoName.includes('github.com')) {
     //                 // Extrae el nombre del repositorio de la URL
     //                 const urlParts = repoName.split('/')
@@ -48,10 +48,10 @@ export function registerGithubMcp(server: McpServer) {
     //             }
 
     //             const config = {
-    //                 token: parameters.token,
-    //                 owner: parameters.owner,
+    //                 token: params.token,
+    //                 owner: params.owner,
     //                 repo: repoName,
-    //                 branch: parameters.branch || 'main'
+    //                 branch: params.branch || 'main'
     //             }
 
     //             // Log sin mostrar el token
@@ -92,11 +92,11 @@ export function registerGithubMcp(server: McpServer) {
         'commit-push',
         "Realiza commit y push de los cambios a GitHub. Guarda cambios en GitHub",
         {
-            parameters: z.object({
+            params: z.object({
                 mensaje: z.string().describe("Mensaje del commit")
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
                 // Leer configuración
                 const config = await readGitHubConfig(paths.githubConfigPath)
@@ -118,20 +118,20 @@ export function registerGithubMcp(server: McpServer) {
                 }
 
                 // Commit y push
-                const result = await commitAndPush(paths.PROJECT_BASE, parameters.mensaje, config)
+                const result = await commitAndPush(paths.PROJECT_BASE, params.mensaje, config)
 
                 if (result) {
                     await logChange({
                         fecha: new Date().toISOString(),
                         tipo: "system",
-                        desc: `Commit y push exitosos: ${parameters.mensaje}`
+                        desc: `Commit y push exitosos: ${params.mensaje}`
                     })
 
                     return {
                         content: [
                             {
                                 type: "text",
-                                text: `Cambios guardados exitosamente en GitHub: ${parameters.mensaje}`
+                                text: `Cambios guardados exitosamente en GitHub: ${params.mensaje}`
                             }
                         ]
                     }
@@ -164,12 +164,12 @@ export function registerGithubMcp(server: McpServer) {
         'gestionar-rama',
         "Gestiona ramas de Git. Crea o cambia a una rama",
         {
-            parameters: z.object({
+            params: z.object({
                 nombre: z.string().describe("Nombre de la rama"),
                 crear: z.boolean().optional().describe("Si es true, crea la rama si no existe")
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
                 // Verificar si es un repositorio git
                 if (!await isGitRepo(paths.PROJECT_BASE)) {
@@ -188,39 +188,39 @@ export function registerGithubMcp(server: McpServer) {
                 // Obtener ramas existentes
                 const branches = await getBranches(paths.PROJECT_BASE)
 
-                if (branches.includes(parameters.nombre)) {
+                if (branches.includes(params.nombre)) {
                     // La rama existe, cambiar a ella
-                    await checkoutBranch(paths.PROJECT_BASE, parameters.nombre)
+                    await checkoutBranch(paths.PROJECT_BASE, params.nombre)
 
                     await logChange({
                         fecha: new Date().toISOString(),
                         tipo: "system",
-                        desc: `Cambiado a rama: ${parameters.nombre}`
+                        desc: `Cambiado a rama: ${params.nombre}`
                     })
 
                     return {
                         content: [
                             {
                                 type: "text",
-                                text: `Cambiado exitosamente a la rama: ${parameters.nombre}`
+                                text: `Cambiado exitosamente a la rama: ${params.nombre}`
                             }
                         ]
                     }
-                } else if (parameters.crear) {
+                } else if (params.crear) {
                     // Crear nueva rama
-                    await createBranch(paths.PROJECT_BASE, parameters.nombre)
+                    await createBranch(paths.PROJECT_BASE, params.nombre)
 
                     await logChange({
                         fecha: new Date().toISOString(),
                         tipo: "system",
-                        desc: `Creada y cambiado a rama: ${parameters.nombre}`
+                        desc: `Creada y cambiado a rama: ${params.nombre}`
                     })
 
                     return {
                         content: [
                             {
                                 type: "text",
-                                text: `Rama creada exitosamente: ${parameters.nombre}`
+                                text: `Rama creada exitosamente: ${params.nombre}`
                             }
                         ]
                     }
@@ -229,7 +229,7 @@ export function registerGithubMcp(server: McpServer) {
                         content: [
                             {
                                 type: "text",
-                                text: `La rama ${parameters.nombre} no existe. Agrega 'crear: true' para crearla.`
+                                text: `La rama ${params.nombre} no existe. Agrega 'crear: true' para crearla.`
                             }
                         ]
                     }

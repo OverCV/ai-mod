@@ -17,7 +17,7 @@ export function registerFeaturesMcp(server: McpServer) {
         'set-feature',
         "Crear/actualizar una característica del proyecto. Gestiona el seguimiento de una característica",
         {
-            parameters: z.object({
+            params: z.object({
                 id: z.string().describe("ID de la característica"),
                 nombre: z.string().describe("Nombre descriptivo"),
                 descripcion: z.string().describe("Descripción detallada (objetivo y necesidad)"),
@@ -35,22 +35,22 @@ export function registerFeaturesMcp(server: McpServer) {
                 fecha_fin: z.string().optional().describe("Fecha de finalización (YYYY-MM-DD)").optional()
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
-                const featurePath = path.join(paths.metaTrackingDir, "features", `${parameters.id}.yaml`)
+                const featurePath = path.join(paths.metaTrackingDir, "features", `${params.id}.yaml`)
                 const isNew = !await fs.pathExists(featurePath)
 
                 // Construir contenido YAML
-                let content = `id: ${parameters.id}\n`
-                content += `nombre: "${parameters.nombre}"\n`
-                content += `descripcion: "${parameters.descripcion}"\n`
-                content += `progreso: ${parameters.progreso}\n`
+                let content = `id: ${params.id}\n`
+                content += `nombre: "${params.nombre}"\n`
+                content += `descripcion: "${params.descripcion}"\n`
+                content += `progreso: ${params.progreso}\n`
                 content += `fecha_incio: ${new Date().toISOString()}\n`
 
 
-                if (parameters.tareas && parameters.tareas.length > 0) {
+                if (params.tareas && params.tareas.length > 0) {
                     content += `tareas:\n`
-                    for (const tarea of parameters.tareas) {
+                    for (const tarea of params.tareas) {
                         content += `  - id: ${tarea.id}\n`
                         content += `    desc: "${tarea.desc}"\n`
                         content += `    estado: "${tarea.estado}"\n`
@@ -60,16 +60,16 @@ export function registerFeaturesMcp(server: McpServer) {
                     }
                 }
 
-                if (parameters.pruebas) {
+                if (params.pruebas) {
                     content += `pruebas:\n`
-                    content += `  unitarias: ${parameters.pruebas.unitarias}\n`
-                    if (parameters.pruebas.integracion) {
-                        content += `  integracion: ${parameters.pruebas.integracion}\n`
+                    content += `  unitarias: ${params.pruebas.unitarias}\n`
+                    if (params.pruebas.integracion) {
+                        content += `  integracion: ${params.pruebas.integracion}\n`
                     }
                 }
 
-                if (parameters.fecha_fin) {
-                    content += `fecha_fin: ${parameters.fecha_fin}\n`
+                if (params.fecha_fin) {
+                    content += `fecha_fin: ${params.fecha_fin}\n`
                 }
 
                 await fs.writeFile(featurePath, content)
@@ -80,12 +80,12 @@ export function registerFeaturesMcp(server: McpServer) {
                     const status = await fs.readFile(statusPath, 'utf8')
 
                     // Añadir ID a funcionalidades_activas si no existe
-                    if (!status.includes(parameters.id)) {
+                    if (!status.includes(params.id)) {
                         const newStatus = status.replace(
                             /funcionalidades_activas:(.*)/,
                             (match, p1) => {
                                 const current = p1.trim() === '[]' ? [] : p1.trim().split(/,\s*/)
-                                current.push(parameters.id)
+                                current.push(params.id)
                                 return `funcionalidades_activas: [${current.join(', ')}]`
                             }
                         )
@@ -95,16 +95,16 @@ export function registerFeaturesMcp(server: McpServer) {
 
                 await logChange({
                     fecha: new Date().toISOString(),
-                    archivo: `tracking/features/${parameters.id}.yaml`,
+                    archivo: `tracking/features/${params.id}.yaml`,
                     tipo: isNew ? "add" : "mod",
-                    desc: `${isNew ? "Creada" : "Actualizada"} feature: ${parameters.nombre}`
+                    desc: `${isNew ? "Creada" : "Actualizada"} feature: ${params.nombre}`
                 })
 
                 return {
                     content: [
                         {
                             type: "text",
-                            text: `Feature ${isNew ? "creada" : "actualizada"} exitosamente: ${parameters.id}`
+                            text: `Feature ${isNew ? "creada" : "actualizada"} exitosamente: ${params.id}`
                         }
                     ]
                 }

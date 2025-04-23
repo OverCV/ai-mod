@@ -3,7 +3,7 @@
 export const IGNORE_DIRS = [
     'node_modules',
     'venv',
-    '.venv/ ',
+    '.venv ',
     '__pycache__',
     '.git',
     'dist',

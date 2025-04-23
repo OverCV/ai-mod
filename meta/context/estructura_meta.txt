@@ -686,7 +686,7 @@ C:\USERS\OVERD\LINKS\ACADEMIA\MCP\INT-0\META
 |   |   |       |   README.md
 |   |   |       |   
 |   |   |       +---lib
-|   |   |               connection-parameters.d.ts
+|   |   |               connection-params.d.ts
 |   |   |               type-overrides.d.ts
 |   |   |               
 |   |   +---accepts
@@ -1932,7 +1932,7 @@ C:\USERS\OVERD\LINKS\ACADEMIA\MCP\INT-0\META
 |   |   |   |   
 |   |   |   +---lib
 |   |   |   |   |   client.js
-|   |   |   |   |   connection-parameters.js
+|   |   |   |   |   connection-params.js
 |   |   |   |   |   connection.js
 |   |   |   |   |   defaults.js
 |   |   |   |   |   index.js

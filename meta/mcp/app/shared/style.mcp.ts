@@ -47,15 +47,15 @@ export function registerStyleMcp(server: McpServer) {
         'mcdp',
         "Inicializa el Model Context Development Protocol (MCP-CODE)",
         {
-            parameters: z.object({
+            params: z.object({
                 modo: z.string().optional().describe("Campo de experiencia (back, front, fullstack, etc)"),
                 proy: z.string().optional().describe("Tipo de proyecto (web, api, etc.)"),
                 extra: z.string().optional().describe("Información adicional para el framework"),
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
-                const { modo = "senior", proy: proyecto = "general", extra } = parameters
+                const { modo = "senior", proy: proyecto = "general", extra } = params
 
                 // Cargar el framework base
                 const frameworkPath = path.join(STYLES_DIR, "meta-code.md")
@@ -152,7 +152,7 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
         'listar-perfiles',
         "Lista todos los perfiles disponibles para mcd",
         {
-            parameters: z.object({}),
+            params: z.object({}),
         },
         async () => {
             try {
@@ -216,7 +216,7 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
         'listar-proyectos',
         "Lista todos los tipos de proyecto disponibles para mcd. Muestra los tipos de proyecto que se pueden aplicar",
         {
-            parameters: z.object({}),
+            params: z.object({}),
         },
         async () => {
             try {
@@ -280,15 +280,15 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
         'estilo-perfil',
         "Crea un nuevo perfil de desarrollador. Guarda un perfil para uso con mcdp",
         {
-            parameters: z.object({
+            params: z.object({
                 nombre: z.string().describe("Nombre único para el perfil (ej: arquitecto)"),
                 contenido: z.string().describe("Contenido markdown del perfil"),
                 descripcion: z.string().optional().describe("Breve descripción del perfil")
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
-                const { nombre, contenido, descripcion } = parameters
+                const { nombre, contenido, descripcion } = params
 
                 // Crear directorios si no existen
                 await ensureDirectories()
@@ -343,15 +343,15 @@ A partir de ahora, seguiré el Framework MCP-CODE como base para nuestro trabajo
         'estilo-proyecto',
         "Crea un nuevo tipo de proyecto. Guarda un tipo de proyecto para uso con mcdp",
         {
-            parameters: z.object({
+            params: z.object({
                 nombre: z.string().describe("Nombre único para el tipo de proyecto (ej: api)"),
                 contenido: z.string().describe("Contenido markdown con el enfoque del proyecto"),
                 descripcion: z.string().optional().describe("Breve descripción del proyecto")
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
-                const { nombre, contenido, descripcion } = parameters
+                const { nombre, contenido, descripcion } = params
 
                 // Crear directorios si no existen
                 await ensureDirectories()

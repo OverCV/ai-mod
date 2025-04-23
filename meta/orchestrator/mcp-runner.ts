@@ -99,15 +99,15 @@ export class McpRunner {
      * Ejecuta una herramienta del MCP
      * Método de simulación cuando no podemos conectar directamente
      */
-    async runTool(toolName: string, parameters: any): Promise<string> {
+    async runTool(toolName: string, params: any): Promise<string> {
         try {
-            logger.debug(`Ejecutando herramienta ${toolName} con parámetros:`, parameters);
+            logger.debug(`Ejecutando herramienta ${toolName} con parámetros:`, params);
 
             // Intenta ejecutar directamente (en un mundo ideal)
             try {
                 const response = await axios.post(
                     `${this.baseUrl}/tools/${toolName}`,
-                    parameters,
+                    params,
                     { timeout: 60000 } // 60s timeout para operaciones largas
                 );
 
@@ -135,15 +135,15 @@ export class McpRunner {
                 // Deberás implementar cada herramienta según necesidad
                 switch (toolName) {
                     case 'listar-directorio':
-                        return await this.simulateListDirectory(parameters.ruta, parameters.recursivo);
+                        return await this.simulateListDirectory(params.ruta, params.recursivo);
                     case 'escanear-proyecto':
                         return "Proyecto escaneado exitosamente (simulación)";
                     case 'escribir-archivo':
                         return "Archivo escrito exitosamente (simulación)";
                     case 'leer-archivo':
-                        return "Contenido simulado para " + parameters.ruta;
+                        return "Contenido simulado para " + params.ruta;
                     case 'ejecutar-comando':
-                        return "Comando ejecutado: " + parameters.comando;
+                        return "Comando ejecutado: " + params.comando;
                     default:
                         return `Herramienta ${toolName} ejecutada (simulación)`;
                 }

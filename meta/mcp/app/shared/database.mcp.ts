@@ -15,7 +15,7 @@ export function registerDatabaseMcp(server: McpServer) {
     'probar-conexion-db',
     "Prueba la conexión a la base de datos PostgreSQL. Verifica que la conexión funcione correctamente",
     {
-      parameters: z.object({}),
+      params: z.object({}),
     },
     async () => {
       try {
@@ -47,21 +47,21 @@ export function registerDatabaseMcp(server: McpServer) {
     'configurar-database',
     "Configura el nombre de la variable de entorno para la conexión a la base de datos.",
     {
-      parameters: z.object({
+      params: z.object({
         envName: z.string().describe("Nombre de la variable de entorno (por defecto: DATABASE_URL)")
       }),
     },
-    async ({ parameters }) => {
+    async ({ params }) => {
       try {
         const configPath = path.join(paths.metaMpcRoot, "database.json")
-        const success = await configureDatabase(configPath, parameters.envName)
+        const success = await configureDatabase(configPath, params.envName)
 
         if (success) {
           return {
             content: [
               {
                 type: "text",
-                text: `Configurado para usar la variable de entorno ${parameters.envName}. Asegúrate de que esta variable esté definida en el archivo .env`
+                text: `Configurado para usar la variable de entorno ${params.envName}. Asegúrate de que esta variable esté definida en el archivo .env`
               }
             ]
           }
@@ -93,7 +93,7 @@ export function registerDatabaseMcp(server: McpServer) {
     'listar-tablas',
     "Lista todas las tablas en la base de datos. Obtiene los nombres de todas las tablas",
     {
-      parameters: z.object({}),
+      params: z.object({}),
     },
     async () => {
       try {
@@ -159,13 +159,13 @@ export function registerDatabaseMcp(server: McpServer) {
     'describir-tabla',
     "Describe la estructura de una tabla. Obtiene información detallada de las columnas de una tabla",
     {
-      parameters: z.object({
+      params: z.object({
         nombre: z.string().describe("Nombre de la tabla a describir")
       }),
     },
-    async ({ parameters }) => {
+    async ({ params }) => {
       try {
-        const { nombre } = parameters
+        const { nombre } = params
 
         // Verificar que la tabla exista
         const checkTableQuery = `
@@ -303,14 +303,14 @@ export function registerDatabaseMcp(server: McpServer) {
     'ejecutar-query',
     "Ejecuta una consulta SQL en PostgreSQL. Solo lectura",
     {
-      parameters: z.object({
+      params: z.object({
         query: z.string().describe("Consulta SQL a ejecutar (solo SELECT)"),
-        params: z.array(z.any()).optional().describe("Parámetros para la consulta")
+        parameters: z.array(z.any()).optional().describe("Parámetros para la consulta")
       }),
     },
-    async ({ parameters }) => {
+    async ({ params }) => {
       try {
-        const { query, params = [] } = parameters
+        const { query, parameters = [] } = params
 
         // Verificar que sea una consulta de solo lectura
         const cleanedQuery = query.trim().toLowerCase()
@@ -329,7 +329,7 @@ export function registerDatabaseMcp(server: McpServer) {
         const client = await getPool().connect()
         try {
           await client.query('BEGIN TRANSACTION READ ONLY')
-          const result = await client.query(query, params)
+          const result = await client.query(query, parameters)
           await client.query('COMMIT')
 
           if (result.rows.length === 0) {
@@ -397,15 +397,15 @@ export function registerDatabaseMcp(server: McpServer) {
     'crear-tabla',
     "Crea una nueva tabla en la base de datos. Crea una tabla según el esquema especificado",
     {
-      parameters: z.object({
+      params: z.object({
         nombre: z.string().describe("Nombre de la tabla a crear"),
         schema: z.string().describe("Definición SQL de la tabla (CREATE TABLE ...)"),
         descripcion: z.string().optional().describe("Descripción de la tabla para documentación")
       }),
     },
-    async ({ parameters }) => {
+    async ({ params }) => {
       try {
-        const { nombre, schema, descripcion } = parameters
+        const { nombre, schema, descripcion } = params
 
         // Verificar que la tabla no exista
         const checkQuery = `

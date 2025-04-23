@@ -64,6 +64,8 @@ async function scanDirectory(
             const itemPath = path.join(dirPath, item)
             const stats = await fs.stat(itemPath)
 
+            console.log(itemPath)
+
             if (stats.isDirectory()) {
 
                 const detailedNode: DetailedNode = {

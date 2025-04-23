@@ -16,7 +16,7 @@ export function registerSystemMcp(server: McpServer) {
         'recargar-mcp',
         "Recarga el servidor MetaMCP para aplicar cambios. Reinicia el servidor MetaMCP",
         {
-            parameters: z.object({}),
+            params: z.object({}),
         },
         async () => {
             try {
@@ -58,20 +58,20 @@ export function registerSystemMcp(server: McpServer) {
         'ejecutar-comando',
         "Ejecuta un comando en la terminal. Ejecuta un comando del sistema operativo",
         {
-            parameters: z.object({
+            params: z.object({
                 comando: z.string().describe("Comando a ejecutar"),
                 directorio: z.string().optional().describe("Directorio donde ejecutar (por defecto: code/)")
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
                 const { exec } = await import('child_process');
                 const util = await import('util');
                 const execAsync = util.promisify(exec);
 
                 // Determinar directorio de trabajo
-                let workDir = parameters.directorio
-                    ? path.join(paths.PROJECT_BASE, parameters.directorio)
+                let workDir = params.directorio
+                    ? path.join(paths.PROJECT_BASE, params.directorio)
                     : paths.codeRoot;
 
                 // Asegurar que existe el directorio
@@ -80,16 +80,16 @@ export function registerSystemMcp(server: McpServer) {
                         content: [
                             {
                                 type: "text",
-                                text: `Error: No existe el directorio ${parameters.directorio || 'code/'}`
+                                text: `Error: No existe el directorio ${params.directorio || 'code/'}`
                             }
                         ]
                     };
                 }
 
-                debug(`Ejecutando comando: ${parameters.comando} en ${workDir}`);
+                debug(`Ejecutando comando: ${params.comando} en ${workDir}`);
 
                 // Ejecutar el comando
-                const { stdout, stderr } = await execAsync(parameters.comando, {
+                const { stdout, stderr } = await execAsync(params.comando, {
                     cwd: workDir,
                     maxBuffer: 5 * 1024 * 1024 // 5MB buffer para comandos con mucha salida
                 });
@@ -97,14 +97,14 @@ export function registerSystemMcp(server: McpServer) {
                 await logChange({
                     fecha: new Date().toISOString(),
                     tipo: "system",
-                    desc: `Ejecutado comando: ${parameters.comando}`
+                    desc: `Ejecutado comando: ${params.comando}`
                 });
 
                 return {
                     content: [
                         {
                             type: "text",
-                            text: `Comando ejecutado: ${parameters.comando}\n\nSalida:\n${stdout}\n\n${stderr ? `Errores:\n${stderr}` : ''}`
+                            text: `Comando ejecutado: ${params.comando}\n\nSalida:\n${stdout}\n\n${stderr ? `Errores:\n${stderr}` : ''}`
                         }
                     ]
                 };

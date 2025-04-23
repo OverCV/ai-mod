@@ -22,16 +22,16 @@ export function registerScanMcp(server: McpServer) {
         'escanear-proyecto',
         "Escanea el proyecto y genera árboles de directorios. Escanea el proyecto y actualiza árboles de directorios",
         {
-            parameters: z.object({
-                directorio: z.string().optional().describe("Directorio a escanear (code | meta)"),
+            params: z.object({
+                directorio: z.string().describe("Directorio a escanear (code | meta)"),
             }),
         },
-        async ({ parameters }) => {
+        async ({ params }) => {
             try {
-                const dirToScan = parameters.directorio || 'code'
+                const dirToScan = params.directorio || 'code'
                 const scanPath = dirToScan === 'code'
                     ? path.join(paths.PROJECT_BASE, 'code')
-                    : path.join(paths.PROJECT_BASE, 'mcp')
+                    : path.join(paths.PROJECT_BASE, 'meta/mcp')
 
                 const { detailed } = await scanProject(scanPath)
 
