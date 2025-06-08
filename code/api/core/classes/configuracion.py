@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     SPRING_REMOTE_URL: str = "https://spring-logic.onrender.com/api/"
     
     # Base de datos
-    POSTGRE_REMOTE_URL: str = "postgresql://dev:npg_ZbH1MpwLv5VD@ep-wispy-surf-a8g50wx4-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
+    POSTGRE_REMOTE_URL: str = ".////db.sqlite"
     
     # Modelos
     MODELS_DIR: str = "models"
